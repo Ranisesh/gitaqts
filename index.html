@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bhagavad Gita Wisdom</title>
+    <style>
+        body {
+            background-color: #f4f1e3;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 30px;
+            margin: 0;
+        }
+
+        h1 {
+            color: #d63384;
+            font-size: 36px;
+        }
+
+        p {
+            font-size: 18px;
+            color: #555;
+            margin: 20px 0;
+        }
+
+        .quote-box {
+            background-color: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            margin: 20px auto;
+            width: 80%;
+            max-width: 600px;
+            font-size: 22px;
+            font-style: italic;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .quote-box p {
+            margin: 0;
+        }
+
+        .button {
+            background-color: #4caf50;
+            color: white;
+            padding: 10px 20px;
+            margin: 20px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .button:hover {
+            background-color: #45a049;
+        }
+
+        .audio-container {
+            margin-top: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Bhagavad Gita Wisdom</h1>
+
+    <p>Click below to start listening to the Gita wisdom with soft flute music</p>
+
+    <!-- Play/Pause music button -->
+    <button class="button" id="audioButton" onclick="toggleMusic()">Play Music</button>
+
+    <!-- Display Quotes -->
+    <div class="quote-box">
+        <p id="quoteText">Loading quotes...</p>
+    </div>
+
+    <!-- Link to Read Full Bhagavad Gita -->
+    <a href="https://vedabase.io/en/library/bg/" target="_blank">
+        <button class="song-button">Read Full Bhagavad Gita</button>
+    </a>
+
+    <!-- Audio Player for Flute Music -->
+    <div class="audio-container">
+        <audio id="audioPlayer" loop>
+            <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+            Your browser does not support the audio element.
+        </audio>
+    </div>
+
+    <script>
+        // Array of Bhagavad Gita Quotes
+  const quotes = [
+    "You have the right to work, but never to the fruit of work. – Bhagavad Gita 2.47",
+    "A person can rise through the efforts of his own mind, or draw himself down, in the same manner. – Bhagavad Gita 6.5",
+    "The soul is neither born, and nor does it die. – Bhagavad Gita 2.20",
+    "When meditation is mastered, the mind is unwavering like the flame of a lamp in a windless place. – Bhagavad Gita 6.19",
+    "There is neither this world, nor the world beyond. How can there be happiness without peace? – Bhagavad Gita 2.66",
+    "Those who are wise see the divine in all. – Bhagavad Gita 5.18",
+    "The self is never born and never dies. It is not slain when the body is slain. – Bhagavad Gita 2.20",
+    "You came empty handed, and you will leave empty handed. – Bhagavad Gita 16.8",
+    "He who has no attachments can really love others, for his love is pure and divine. – Bhagavad Gita 12.13",
+    "The mind is everything. What you think you become. – Bhagavad Gita 6.5",
+    "Perform your duty with focus, free from the desire for its results. – Bhagavad Gita 2.47",
+    "You are what you believe in. You become that which you believe you can become. – Bhagavad Gita 10.20",
+    "In the battlefield of life, be the warrior of your soul. – Bhagavad Gita 3.35",
+    "There is neither birth nor death for the soul. – Bhagavad Gita 2.20",
+    "When you perform your actions selflessly, without attachment, you free yourself from the cycle of birth and death. – Bhagavad Gita 3.16",
+    "Change is the law of the universe. You can be a millionaire, or a pauper in an instant. – Bhagavad Gita 2.14",
+    "The person who is free from all desires and has found peace is the one who enjoys the true happiness of life. – Bhagavad Gita 5.29",
+    "There is neither wisdom in a selfish, narrow mind. – Bhagavad Gita 3.39",
+    "The one who is able to remain unaffected by joy or sorrow, and who remains devoted to their duties, is the true yogi. – Bhagavad Gita 6.22",
+    "Be steadfast in your determination and practice, and you will reach your goal. – Bhagavad Gita 9.22",
+    "A true yogi sees the world as one and remains unaffected by external circumstances. – Bhagavad Gita 6.32",
+    "You are the master of your destiny. – Bhagavad Gita 6.5",
+    "Self-realization is the ultimate goal of life. – Bhagavad Gita 9.22",
+    "Even a little effort towards self-realization will save you from the greatest fear. – Bhagavad Gita 2.40",
+    "The one who is unaffected by pain and pleasure, and who remains calm in all circumstances, is the true yogi. – Bhagavad Gita 6.7",
+    "Those who are motivated by desires and self-interest will never attain peace. – Bhagavad Gita 2.66",
+    "The one who sees me in all beings, and all beings in me, is a true yogi. – Bhagavad Gita 9.22",
+    "Surrender your heart to the divine, and all the obstacles will be removed from your life. – Bhagavad Gita 18.66",
+    "You must act with full awareness, keeping the welfare of all in mind. – Bhagavad Gita 3.25",
+    "A yogi is one who practices meditation to discover the true nature of existence. – Bhagavad Gita 6.9",
+    "Selfless action is the highest form of yoga. – Bhagavad Gita 5.11",
+    "Trust in God’s plan for you, and surrender all to Him. – Bhagavad Gita 9.22",
+  ];
+
+  // Function to change the quote every 10 seconds
+  let currentQuoteIndex = 0;
+  function changeQuote() {
+    document.getElementById('quoteText').innerHTML = quotes[currentQuoteIndex];
+    currentQuoteIndex = (currentQuoteIndex + 1) % quotes.length;
+  }
+
+  // Call changeQuote every 10 seconds
+  setInterval(changeQuote, 10000);
+  changeQuote();  // Display the first quote immediately
+
+  // Function to toggle the background music
+  let audioPlaying = false;
+  function toggleMusic() {
+    const audioPlayer = document.getElementById('audioPlayer');
+    const audioButton = document.getElementById('audioButton');
+    
+    if (audioPlaying) {
+      audioPlayer.pause();
+      audioButton.innerText = 'Play Music';
+    } else {
+      audioPlayer.play();
+      audioButton.innerText = 'Pause Music';
+    }
+    audioPlaying = !audioPlaying;
+  }
+    </script>
+
+</body>
+
+</html>
